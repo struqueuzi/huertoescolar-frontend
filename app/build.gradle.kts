@@ -14,6 +14,18 @@ android {
         versionName = "1.0"
     }
     testOptions.unitTests.isIncludeAndroidResources = true
+    signingConfigs {
+        create("academica") {
+            val ruta = System.getenv("HUERTO_JKS")
+            if (ruta != null) {
+                storeFile = file(ruta)
+                storePassword = System.getenv("HUERTO_CLAVE")
+                keyAlias = "huerto"
+                keyPassword = storePassword
+            }
+        }
+    }
+    buildTypes { getByName("release") { signingConfig = signingConfigs.getByName("academica") } }
     buildFeatures { compose = true }
     composeOptions { kotlinCompilerExtensionVersion = "1.5.14" }
     compileOptions {
@@ -23,6 +35,8 @@ android {
     kotlinOptions { jvmTarget = "17" }
 }
 dependencies {
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
     implementation(platform("androidx.compose:compose-bom:2024.09.03"))
     implementation("androidx.compose.material3:material3")
     implementation("androidx.activity:activity-compose:1.9.3")
