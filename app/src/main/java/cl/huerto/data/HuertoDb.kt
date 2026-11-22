@@ -3,6 +3,7 @@ import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 @Dao
 interface HuertoDao {
+    @Query("SELECT EXISTS(SELECT 1 FROM Tarea JOIN Cultivo ON Cultivo.id=Tarea.cultivo WHERE Tarea.responsable=:user AND Cultivo.sector=:sector)") suspend fun hasSector(user: Long, sector: Long): Boolean
     @Insert suspend fun insert(row: Usuario): Long
     @Query("SELECT * FROM Usuario") fun observeUsuario(): Flow<List<Usuario>>
     @Query("SELECT * FROM Usuario WHERE id = :id") suspend fun getUsuario(id: Long): Usuario?
