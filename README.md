@@ -35,3 +35,7 @@ Kotlin, Jetpack Compose, Material Design 3, Navigation Compose, Room sobre SQLit
 ## Equipo y evidencias de colaboración
 
 Titular de los repositorios indicados: **struqueuzi**. Completar los nombres oficiales de ambos integrantes y el enlace al tablero de planificación antes de la entrega. Los créditos individuales deben reflejar los aportes reales. El historial de esta rama identifica los cambios técnicos del desarrollo asistido.
+
+## Experiencia 3 · EP4 y EP5
+
+Esta rama agrega inventario y agenda con Spring Boot, CRUD desde Android y clima de San Bernardo mediante Retrofit. Para conexión, pruebas, firma y defensa consulta [la guía de EP4 y EP5](docs/EP4-EP5.md). Endpoints propios: /api/insumos (8081) y /api/jornadas (8082), con GET/POST en la colección y GET/PUT/DELETE por ID. API externa: https://api.open-meteo.com/v1/forecast con latitude, longitude, current y timezone. El proyecto backend contiene dos aplicaciones ejecutables independientes. Para instalar el release usa el APK correspondiente a la rama desarrollo-ep4.
