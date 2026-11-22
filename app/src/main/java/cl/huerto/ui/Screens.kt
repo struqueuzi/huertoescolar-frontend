@@ -35,7 +35,7 @@ fun editRoute(form: Form,id: Long=0) = "form/${form.name}/$id"
 }
 @Composable fun SectorDetail(id: Long,g: Garden,admin: Boolean,go: (String)->Unit,remove: ()->Unit) {
     val s=g.sector.find { it.id==id } ?: return Empty()
-    var confirm by remember { mutableStateOf(false) }
+    var confirm by rememberSaveable { mutableStateOf(false) }
     Page(s.nombre) {
         Status(s.estado); Text(s.ubicacion+" · "+s.descripcion)
         if(admin) {
