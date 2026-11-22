@@ -110,3 +110,29 @@ El diseño separa grupos repetidos y hechos sobre distintas entidades. Los nombr
 **Preguntas que conviene poder responder.** ¿Por qué Validacion apunta a Evidencia? Permite identificar exactamente qué entrega se evaluó. ¿Qué pasa si el docente pulsa dos veces? La operación bloquea reenvíos en curso y el repositorio vuelve a comprobar el estado dentro de una transacción. ¿Qué ocurre si se cancela la cámara? Se elimina el temporal y se conserva la selección anterior. ¿Qué cambia al usar otro teléfono? El almacenamiento es local a cada instalación. ¿Quién controla el riego? El usuario. El calendario y las lecturas de prueba solo informan.
 
 **Entrega y participación.** La EP2 exige proyecto completo, repositorio público con acceso para docente y equipo, commits técnicos distribuidos, planificación en Trello o similar, envío del mismo código a AVA grupal por un integrante y activación individual. Revisar el plazo oficial antes de cambiar el remoto: la pauta sanciona modificaciones posteriores a la entrega y previas a la evaluación. Para EP3 cada integrante debe poder ejecutar y modificar el proyecto sin IA ni materiales de apoyo durante su defensa. Los commits de implementación asistida documentan cambios técnicos. La participación de ambos se acredita con trabajo real de cada integrante.
+
+## Lista de comprobación detallada
+
+| Requisito | Comprobación concreta |
+|---|---|
+| Dos roles y cuatro cuentas | Abrir con docente, luna, nico y sol. La sesión distingue Administrador y Colaborador. Salir debe devolver al login y limpiar la navegación. |
+| Acceso limitado a tareas propias | El selector de responsables solo aparece al docente. Un intento de iniciar la tarea de otro usuario falla en Repository. |
+| Alta y edición de sectores | Completar nombre, ubicación, descripción y estado. Entrar al detalle para editar. Intentar eliminar el sector inicial y leer el mensaje por registros asociados. |
+| Alta y edición de cultivos | Desde el sector, ingresar nombre, descripción, fechas, frecuencia y estado. La foto, las observaciones y el trasplante son opcionales. Se conserva el sector al editar para mantener las relaciones históricas. |
+| Creación y asignación | Elegir cultivo y estudiante activo, tipo, instrucciones y fecha. El sector se muestra junto al cultivo. Cambiar responsable antes de iniciar. |
+| Detalle y filtros | Filtrar por estado, fecha o responsable y abrir la tarea resultante. Ver instrucciones, fecha y responsable. Quitar filtros para recuperar el listado completo. |
+| Entrega y revisión | En desarrollo requiere comentario y foto para pasar a revisión. El docente elige Validada o Rechazada. La app exige motivo en el segundo caso. |
+| Reporte y seguimiento | Sector obligatorio, cultivo opcional, tipo, descripción y foto. Docente cambia estado y deja comentario fechado. |
+| Historial | Abrir eventos por orden cronológico inverso. Tocar una actividad para consultar todas las fotos y resultados de sus revisiones. |
+| Modelo, relaciones y CRUD | Abrir Models y HuertoDb en Android Studio. En App Inspection → Database Inspector revisar IDs sobre una ejecución depurable. Crear y editar datos desde la UI. Probar eliminación con un sector vacío. |
+| Persistencia entre sesiones | Guardar una entrega. Cerrar completamente la app y volver a abrir. Ingresar con la cuenta correspondiente y consultar la evidencia. |
+| Validación por campo | Dejar campos obligatorios vacíos, ingresar una fecha imposible y un número de riego negativo. Se bloquea la operación y se muestra la causa junto al campo. |
+| Formatos y longitudes | Usar fechas ISO. Nombre y ubicación admiten hasta 100 caracteres. Descripciones, instrucciones, observaciones y comentarios admiten hasta 1000. |
+| Responsable permitido | La lista muestra estudiantes activos. El repositorio vuelve a comprobar el ID y rol aun si llega un valor manipulado. |
+| Cámara y selector | Probar cámara real o virtual configurada, una foto de galería y cancelación de ambos flujos. Android otorga acceso mediante el contrato. La app comparte con la cámara una URI temporal. |
+| Diseño y adaptabilidad | Abrir en vertical y horizontal. Verificar formularios desplazables, ancho máximo, colores de estado, mensajes de éxito, pantallas vacías y carga de fotografía. |
+| Tres animaciones | Aparecen errores por campo, cambia el estado de la tarea y se expande el bloque al agregar fotografía. Identificar AnimatedVisibility, Crossfade y animateContentSize en el código. |
+| Reenvío y auditoría | Rechazar, corregir y aprobar. Cada revisión apunta a una evidencia, indica quién decidió y cuándo. El primer rechazo queda accesible. |
+| Atrasos y planificación | Contrastar fecha actual con una tarea pendiente vencida y una tarea ya entregada. Solo la primera queda atrasada. Revisar cosechas estimadas y frecuencia de riego. |
+| Simulación académica | Mostrar el origen ficticio y los valores de humedad del suelo, temperatura y humedad ambiental. El aviso de lectura baja permite abrir el detalle. |
+| Material de entrega | Clonar el proyecto, compilar desde cero, verificar el README, mostrar commits y planificación, entregar por ambos canales AVA en los términos de la pauta. |
