@@ -117,6 +117,7 @@ class Repository(val db: HuertoDb, private val photos: File) {
         dao.insert(Evidencia(tarea=submitted,autor=3,comentario="Observación ficticia del brote de acelga.",foto=sample,fecha=now-60000))
         dao.insert(ReporteProblema(sector=sector,cultivo=crop,autor=2,tipo="Falta de agua",
             descripcion="Ejemplo ficticio: borde del bancal seco.",foto=sample,estado="Informado",fecha=now-30000))
+        dao.insert(Lectura(sector=sector,suelo=18,temperatura=22,aire=56,estado="Bajo",fecha=now-3600000))
         dao.insert(Lectura(sector=sector,suelo=46,temperatura=21,aire=63,estado="Normal",fecha=now))
     }
 }

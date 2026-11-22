@@ -113,6 +113,9 @@ fun editRoute(form: Form,id: Long=0) = "form/${form.name}/$id"
     val today=LocalDate.now()
     val active=g.tarea.filter { it.estado in listOf(PENDING,WORKING,REJECTED) }.sortedBy { it.fecha }
     if(active.isEmpty() && g.cultivo.isEmpty()) Empty()
+    g.tarea.filter { it.estado==SUBMITTED }.forEach { Line("Entrega pendiente de validación",it.tipo) { go("tarea/"+it.id) } }
+    g.reporteproblema.filter { it.estado in listOf("Informado","En revisión") }.forEach { Line("Problema pendiente",it.tipo) { go("reporte/"+it.id) } }
+    g.lectura.filter { it.estado!="Normal" }.forEach { Line("Lectura simulada fuera de rango",g.place(it.sector)+" · "+it.estado) { go("sensores") } }
     active.forEach { t -> Line(if(overdue(t.estado,t.fecha)) "Atrasada · "+t.tipo else "Programada · "+t.tipo,t.fecha+" · "+g.crop(t.cultivo)) { go("tarea/"+t.id) } }
     g.cultivo.filter { it.estado !in listOf("Finalizado","Cosechado") }.forEach { c ->
         val sow=LocalDate.parse(c.siembra)
