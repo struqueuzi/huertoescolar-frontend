@@ -13,6 +13,7 @@ android {
         versionCode = 1
         versionName = "1.0"
     }
+    testOptions.unitTests.isIncludeAndroidResources = true
     buildFeatures { compose = true }
     composeOptions { kotlinCompilerExtensionVersion = "1.5.14" }
     compileOptions {
@@ -33,4 +34,5 @@ dependencies {
     kapt("androidx.room:room-compiler:2.6.1")
     implementation("io.coil-kt:coil-compose:2.7.0")
     testImplementation("junit:junit:4.13.2")
+    testImplementation("org.robolectric:robolectric:4.13")
 }
