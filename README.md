@@ -39,3 +39,9 @@ Titular de los repositorios indicados: **struqueuzi**. Completar los nombres ofi
 ## Experiencia 3 · EP4 y EP5
 
 Esta rama agrega inventario y agenda con Spring Boot, CRUD desde Android y clima de San Bernardo mediante Retrofit. Para conexión, pruebas, firma y defensa consulta [la guía de EP4 y EP5](docs/EP4-EP5.md). Endpoints propios: /api/insumos (8081) y /api/jornadas (8082), con GET/POST en la colección y GET/PUT/DELETE por ID. API externa: https://api.open-meteo.com/v1/forecast con latitude, longitude, current y timezone. El proyecto backend contiene dos aplicaciones ejecutables independientes. Para instalar el release usa el APK correspondiente a la rama desarrollo-ep4.
+
+### Archivos firmados
+
+La carpeta entrega contiene HuertoEscolar-2.0-release.apk y el almacén académico huerto-academico.jks cifrado. La contraseña se entrega al titular por separado. El APK usa el esquema v2 y un certificado con nombre Huerto Escolar Academico. Ver la salida de apksigner en docs/verificacion/firma-apk.txt.
+
+![APK y almacén de firma](docs/verificacion/archivos-firmados.png)
