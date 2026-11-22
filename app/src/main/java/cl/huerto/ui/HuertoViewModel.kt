@@ -1,7 +1,7 @@
 package cl.huerto.ui
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.room.Room
 import cl.huerto.data.*
@@ -36,9 +36,13 @@ data class Garden(
     }
 }
 data class ScreenState(val user: Usuario? = null, val garden: Garden = Garden(), val ready: Boolean = false)
-class HuertoViewModel(app: Application) : AndroidViewModel(app) {
-    private val database = Room.databaseBuilder(app,HuertoDb::class.java,"huerto.db").build()
-    private val repo = Repository(database,File(app.filesDir,"fotos"))
+class HuertoViewModel(private val repo: Repository) : ViewModel() {
+    companion object {
+        fun create(app: Application): HuertoViewModel {
+            val database=Room.databaseBuilder(app,HuertoDb::class.java,"huerto.db").build()
+            return HuertoViewModel(Repository(database,File(app.filesDir,"fotos")))
+        }
+    }
     private val dao = repo.dao
     private val session = MutableStateFlow<Usuario?>(null)
     private val initialized = MutableStateFlow(false)

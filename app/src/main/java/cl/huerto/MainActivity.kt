@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -20,7 +22,7 @@ import cl.huerto.ui.*
 import cl.huerto.ui.theme.GardenTheme
 
 class MainActivity : ComponentActivity() {
-    private val vm: HuertoViewModel by viewModels()
+    private val vm: HuertoViewModel by viewModels { viewModelFactory { initializer { HuertoViewModel.create(application) } } }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent { GardenTheme { App(vm) } }
