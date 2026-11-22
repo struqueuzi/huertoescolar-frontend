@@ -56,3 +56,7 @@ La evaluación individual pide ejecutar y modificar sin asistencia durante la de
 La suite JVM de reglas, ViewModels y repositorio ejecutó 18 pruebas con éxito. JaCoCo 0.8.12 registró 223 de 229 líneas (97,38 %) y 206 de 282 ramas (73,05 %) en las clases seleccionadas de lógica. La medición usó el compilador Kotlin/Compose y JUnitCore; el XML y la salida de pruebas están en docs/verificacion. El denominador incluye Repository, HuertoViewModel, Garden, TallerViewModel, ServicesKt y domain. El informe excluye pantallas Compose, DTO, SQL generado y servicios Java. El doble FakeDao permite probar reglas y eventos de estado sin dispositivo. Los tests RepositoryTest ejercitan por separado la base Room. Los porcentajes de cobertura de líneas y de ramas responden a preguntas distintas.
 
 El cliente Retrofit real completó CRUD contra ambos procesos Spring. Se verificaron también respuestas HTTP de autenticación, validación y registro inexistente. Inventario recuperó el mismo registro desde H2 después de detener y reiniciar la JVM.
+
+## Comprobación del release
+
+El APK 2.0 se compiló con assembleRelease, se verificó con apksigner y se instaló en un emulador Android 9 (API 28). Se abrió MainActivity, se ingresó con la cuenta docente y se abrió Inventario compartido desde el panel. Las capturas del login y del panel se encuentran en docs/verificacion. El verificador de contratos documenta por separado el CRUD contra los dos servicios.
