@@ -1,4 +1,5 @@
 plugins {
+    jacoco
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.kapt")
@@ -52,4 +53,26 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.robolectric:robolectric:4.13")
+}
+
+jacoco { toolVersion = "0.8.12" }
+tasks.withType<Test>().configureEach {
+    extensions.configure<JacocoTaskExtension> { isIncludeNoLocationClasses = true; excludes = listOf("jdk.internal.*") }
+}
+val businessClasses = fileTree(layout.buildDirectory.dir("tmp/kotlin-classes/debug")) {
+    include("cl/huerto/domain/**", "cl/huerto/data/Repository*.class", "cl/huerto/ui/HuertoViewModel*.class",
+        "cl/huerto/ui/Garden*.class", "cl/huerto/remote/TallerViewModel*.class", "cl/huerto/remote/ServicesKt*.class")
+}
+tasks.register<JacocoReport>("coberturaLogica") {
+    dependsOn("testDebugUnitTest")
+    executionData(layout.buildDirectory.file("jacoco/testDebugUnitTest.exec"))
+    sourceDirectories.setFrom("src/main/java")
+    classDirectories.setFrom(businessClasses)
+    reports { html.required.set(true); xml.required.set(true) }
+}
+tasks.register<JacocoCoverageVerification>("verificarCobertura") {
+    dependsOn("coberturaLogica")
+    executionData(layout.buildDirectory.file("jacoco/testDebugUnitTest.exec"))
+    classDirectories.setFrom(businessClasses)
+    violationRules { rule { limit { counter = "LINE"; minimum = "0.80".toBigDecimal() } } }
 }
