@@ -1,6 +1,6 @@
 # Huerto escolar
 
-Aplicación Android para el taller de un huerto escolar ficticio. El docente organiza los bancales, planifica el trabajo y revisa entregas. Cada estudiante ve sus actividades, entrega evidencias y reporta problemas. La base Room y los archivos de imagen residen en la instalación. Para demostrar la colaboración entre roles se cambia de cuenta en el mismo teléfono o emulador.
+Aplicación Android para el taller de un huerto escolar ficticio. El docente organiza los bancales, planifica el trabajo y revisa entregas. Cada estudiante ve sus actividades, entrega evidencias y reporta problemas. La base Room y los archivos de imagen residen en la instalación. El inventario y la agenda del taller se comparten a través de dos servicios Spring Boot. Para demostrar la colaboración entre roles se cambia de cuenta en el mismo teléfono o emulador.
 
 ## Ejecutar
 
@@ -30,7 +30,7 @@ La primera apertura crea el sector Bancal norte, un cultivo de acelga, trabajos 
 
 ## Tecnologías y organización
 
-Kotlin, Jetpack Compose, Material Design 3, Navigation Compose, Room sobre SQLite, Kotlin Coroutines, Flow, StateFlow, ViewModel, Photo Picker, TakePicture, FileProvider, Coil, JUnit y Robolectric. El repositorio contiene un módulo Android dividido en paquetes de presentación, dominio y datos. Cada instancia funciona localmente sin API remota. Las instrucciones, recorridos de evaluación y explicación del modelo están en [la guía técnica y de defensa](docs/Guia-de-defensa.md).
+Kotlin, Jetpack Compose, Material Design 3, Navigation Compose, Room sobre SQLite, Kotlin Coroutines, Flow, StateFlow, ViewModel, Photo Picker, TakePicture, FileProvider, Coil, JUnit y Robolectric. El repositorio contiene un módulo Android dividido en paquetes de presentación, dominio y datos. La gestión de tareas funciona localmente. El inventario y la agenda usan los servicios propios, y el tiempo meteorológico se consulta a Open-Meteo. Las instrucciones, recorridos de evaluación y explicación del modelo están en [la guía técnica y de defensa](docs/Guia-de-defensa.md).
 
 ## Equipo y evidencias de colaboración
 
