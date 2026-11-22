@@ -14,7 +14,7 @@ import retrofit2.HttpException
 
 data class Panel(val filas: List<Registro> = emptyList(), val ocupado: Boolean=false,val aviso: String="")
 class TallerViewModel(val modulo: Modulo): ViewModel() {
-    private val api = retrofit("http://10.0.2.2:${modulo.puerto}/api/").create(TallerApi::class.java)
+    private val api = retrofit("http://127.0.0.1:${modulo.puerto}/api/").create(TallerApi::class.java)
     private val _panel=MutableStateFlow(Panel())
     val panel=_panel.asStateFlow()
     fun ejecutar(clave: String, accion: suspend (TallerApi,String)->Unit = { _,_-> }) {
