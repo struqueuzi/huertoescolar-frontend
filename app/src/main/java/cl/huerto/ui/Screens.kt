@@ -25,6 +25,11 @@ fun editRoute(form: Form,id: Long=0) = "form/${form.name}/$id"
         Line("Problemas del huerto","${g.reporteproblema.size} reportes") { go("reportes") }
         Line("Avisos","Riegos, cosechas y mantenimiento") { go("avisos") }
         Line("Historial","Actividades, evidencias y revisiones") { go("historial") }
+        Line("Tiempo en San Bernardo","Pronóstico de Open-Meteo") { go("tiempo") }
+        if(admin) {
+            Line("Inventario compartido","Insumos del taller") { go("insumos") }
+            Line("Jornadas del taller","Agenda compartida") { go("jornadas") }
+        }
         if(admin) Line("Sensores simulados","Lecturas de prueba del taller") { go("sensores") }
     }
 }

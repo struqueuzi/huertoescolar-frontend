@@ -14,6 +14,8 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.*
 import androidx.navigation.navArgument
 import cl.huerto.domain.*
+import cl.huerto.remote.*
+import androidx.lifecycle.viewmodel.compose.viewModel
 import cl.huerto.ui.*
 import cl.huerto.ui.theme.GardenTheme
 
@@ -57,6 +59,13 @@ class MainActivity : ComponentActivity() {
                     }
                 } else NavHost(nav,"inicio") {
                     composable("inicio"){Home(user,g,go)}
+                    composable("tiempo"){WeatherScreen()}
+                    for(modulo in Modulo.values()) {
+                        composable(modulo.ruta){if(admin) {
+                            val taller=viewModel<TallerViewModel> { TallerViewModel(modulo) }
+                            TallerScreen(taller)
+                        }}
+                    }
                     composable("sectores"){Sectors(g,admin,go)}
                     composable("tareas"){Tasks(g,admin,false,go)}
                     composable("revisiones"){if(admin) Tasks(g,true,true,go)}
