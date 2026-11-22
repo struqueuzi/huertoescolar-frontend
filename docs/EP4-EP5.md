@@ -50,3 +50,9 @@ El proyecto EP4 tiene versionCode 2 y versionName 2.0. En Linux, indicar HUERTO_
 | 12–15 | Practicar una modificación: fijar cantidad máxima de 500, aplicar la regla al cliente y al servidor, agregar pruebas de 500 y 501 y ejecutar. |
 
 La evaluación individual pide ejecutar y modificar sin asistencia durante la defensa. El equipo debe completar nombres, planificación y contribuciones reales, verificar el material en el dispositivo del laboratorio y entregar en AVA grupal e individual según la pauta.
+
+## Evidencia obtenida
+
+La suite JVM de reglas, ViewModels y repositorio ejecutó 18 pruebas con éxito. JaCoCo 0.8.12 registró 223 de 229 líneas (97,38 %) y 206 de 282 ramas (73,05 %) en las clases seleccionadas de lógica. La medición usó el compilador Kotlin/Compose y JUnitCore; el XML y la salida de pruebas están en docs/verificacion. El denominador incluye Repository, HuertoViewModel, Garden, TallerViewModel, ServicesKt y domain. El informe excluye pantallas Compose, DTO, SQL generado y servicios Java. El doble FakeDao permite probar reglas y eventos de estado sin dispositivo. Los tests RepositoryTest ejercitan por separado la base Room. Los porcentajes de cobertura de líneas y de ramas responden a preguntas distintas.
+
+El cliente Retrofit real completó CRUD contra ambos procesos Spring. Se verificaron también respuestas HTTP de autenticación, validación y registro inexistente. Inventario recuperó el mismo registro desde H2 después de detener y reiniciar la JVM.
