@@ -13,8 +13,10 @@ import okhttp3.Credentials
 import retrofit2.HttpException
 
 data class Panel(val filas: List<Registro> = emptyList(), val ocupado: Boolean=false,val aviso: String="")
-class TallerViewModel(val modulo: Modulo): ViewModel() {
-    private val api = retrofit("http://127.0.0.1:${modulo.puerto}/api/").create(TallerApi::class.java)
+class TallerViewModel(
+    val modulo: Modulo,
+    private val api: TallerApi = retrofit("http://127.0.0.1:${modulo.puerto}/api/").create(TallerApi::class.java)
+): ViewModel() {
     private val _panel=MutableStateFlow(Panel())
     val panel=_panel.asStateFlow()
     fun ejecutar(clave: String, accion: suspend (TallerApi,String)->Unit = { _,_-> }) {
@@ -29,7 +31,7 @@ class TallerViewModel(val modulo: Modulo): ViewModel() {
                 escrito=true
                 val rows=api.listar(auth,modulo.ruta)
                 _panel.value=Panel(rows,aviso="Datos actualizados")
-            } catch(e: Exception) {
+            } catch(e: kotlinx.coroutines.CancellationException) { throw e } catch(e: Exception) {
                 val msg=when(e) {
                     is HttpException -> if(e.code()==401) "Clave del servicio incorrecta" else "Operación rechazada (HTTP ${e.code()})"
                     is IllegalArgumentException -> e.message.orEmpty()
