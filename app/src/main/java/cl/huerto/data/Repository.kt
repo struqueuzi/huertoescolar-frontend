@@ -107,6 +107,16 @@ class Repository(val db: HuertoDb, private val photos: File) {
             val task = dao.insert(Tarea(cultivo=crop,responsable=(2+i%3).toLong(),autor=1,tipo=type,descripcion=listOf("Riega la base de las acelgas y registra el resultado.","Observa el color de las hojas.","Limpia los bordes del bancal.","Prepara una hilera para siembra.")[i],fecha=today.plusDays((i-1).toLong()).toString(),estado=PENDING,creado=now))
             dao.insert(Evento(tarea=task,autor=1,estado=PENDING,fecha=now))
         }
+        val sample = demoEvidence(photos)
+        // One earlier submission remains available for the first teacher review.
+        val submitted = dao.insert(Tarea(cultivo=crop,responsable=3,autor=1,tipo="Observación",
+            descripcion="Registra el crecimiento del primer brote.",fecha=today.toString(),estado=SUBMITTED,creado=now-180000))
+        for ((offset,status) in listOf(180000L to PENDING,120000L to WORKING,60000L to SUBMITTED)) {
+            dao.insert(Evento(tarea=submitted,autor=if(status==PENDING) 1 else 3,estado=status,fecha=now-offset))
+        }
+        dao.insert(Evidencia(tarea=submitted,autor=3,comentario="Observación ficticia del brote de acelga.",foto=sample,fecha=now-60000))
+        dao.insert(ReporteProblema(sector=sector,cultivo=crop,autor=2,tipo="Falta de agua",
+            descripcion="Ejemplo ficticio: borde del bancal seco.",foto=sample,estado="Informado",fecha=now-30000))
         dao.insert(Lectura(sector=sector,suelo=46,temperatura=21,aire=63,estado="Normal",fecha=now))
     }
 }
