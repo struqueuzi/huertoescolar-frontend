@@ -1,0 +1,30 @@
+name: Cobertura de lógica Android
+on:
+  push:
+    branches: [desarrollo-ep4]
+permissions:
+  contents: read
+jobs:
+  cobertura:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - run: ./gradlew :app:testDebugUnitTest --tests '*RulesTest' --tests '*TallerTest' --tests '*TallerViewModelTest' --tests '*HuertoStateTest' --tests '*BranchCoverageTest' :app:coberturaLogica :app:verificarCobertura
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: informe-cobertura
+          path: |
+            app/build/reports/jacoco/
+            app/build/test-results/testDebugUnitTest/
+      - if: always()
+        run: |
+          python - <<'PY'
+          import glob,xml.etree.ElementTree as E
+          for c in E.parse(glob.glob('app/build/reports/jacoco/**/*.xml',recursive=True)[0]).getroot().findall('counter'):
+              a=int(c.get('covered')); b=int(c.get('missed')); print(c.get('type'),a,a+b,round(100*a/(a+b),2))
+          PY

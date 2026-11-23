@@ -1,0 +1,17 @@
+Verifies
+Verified using v1 scheme (JAR signing): false
+Verified using v2 scheme (APK Signature Scheme v2): true
+Verified using v3 scheme (APK Signature Scheme v3): false
+Verified using v3.1 scheme (APK Signature Scheme v3.1): false
+Verified using v4 scheme (APK Signature Scheme v4): false
+Verified for SourceStamp: false
+Number of signers: 1
+Signer #1 certificate DN: CN=Huerto Escolar Academico
+Signer #1 certificate SHA-256 digest: 28faddcf9826c26be6a0e82650e19bc18ff12ef4c0fce34c92846e64d5467b37
+Signer #1 certificate SHA-1 digest: dd174510a1942162a585228523bd7a1695598e40
+Signer #1 certificate MD5 digest: 12de58d6aa92c63d3a33483eaa83bc3b
+Signer #1 key algorithm: RSA
+Signer #1 key size (bits): 3072
+Signer #1 public key SHA-256 digest: 714de09657c91c8a04e1d4d9e33f84852f22cb390398a898be81b25e3a25182c
+Signer #1 public key SHA-1 digest: dfd2f0c5e54d2465a43e426b8965b2f06b098bb3
+Signer #1 public key MD5 digest: 8be307c33af018c461231e85e32d9912

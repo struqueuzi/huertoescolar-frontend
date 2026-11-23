@@ -1,0 +1,2 @@
+Retrofit: CRUD de insumos comprobado
+Retrofit: CRUD de jornadas comprobado
