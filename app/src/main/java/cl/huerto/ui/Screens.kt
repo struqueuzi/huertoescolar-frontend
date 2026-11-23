@@ -1,6 +1,7 @@
 package cl.huerto.ui
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.background
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.Modifier
@@ -26,6 +27,11 @@ fun editRoute(form: Form,id: Long=0) = "form/${form.name}/$id"
         val pendientes = g.tarea.count { it.estado == SUBMITTED }
         val atrasadas = g.tarea.count { overdue(it.estado,it.fecha) }
         Surface(shape=RoundedCornerShape(24.dp), color=MaterialTheme.colorScheme.primary) {
+            Box {
+            Image(painterResource(R.drawable.huerto_paisaje),null,Modifier.matchParentSize(),
+                contentScale=androidx.compose.ui.layout.ContentScale.Crop)
+            Box(Modifier.matchParentSize().background(androidx.compose.ui.graphics.Brush.horizontalGradient(
+                listOf(androidx.compose.ui.graphics.Color(0xFF183D36),androidx.compose.ui.graphics.Color.Transparent))))
             Column(Modifier.fillMaxWidth().padding(22.dp), verticalArrangement=Arrangement.spacedBy(10.dp)) {
                 Row(horizontalArrangement=Arrangement.spacedBy(12.dp),verticalAlignment=androidx.compose.ui.Alignment.CenterVertically) {
                     Image(painterResource(R.drawable.brote),null,Modifier.size(44.dp))
@@ -37,6 +43,7 @@ fun editRoute(form: Form,id: Long=0) = "form/${form.name}/$id"
                     Text(if(admin) "Revisar entregas" else "Mis tareas")
                 }
             }
+        }
         }
         Row(Modifier.fillMaxWidth(),horizontalArrangement=Arrangement.spacedBy(10.dp)) {
             for ((ruta,valor,titulo) in listOf(Triple("tareas",g.tarea.size,"Tareas"),Triple("sectores",g.sector.size,"Sectores"))) {
