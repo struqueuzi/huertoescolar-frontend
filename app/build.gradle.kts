@@ -26,7 +26,7 @@ android {
             }
         }
     }
-    buildTypes { getByName("debug") { applicationIdSuffix = ".vista" }; getByName("release") { signingConfig = signingConfigs.getByName("academica") } }
+    buildTypes { getByName("debug") { applicationIdSuffix = ".cosecha" }; getByName("release") { signingConfig = signingConfigs.getByName("academica") } }
     buildFeatures { compose = true }
     composeOptions { kotlinCompilerExtensionVersion = "1.5.14" }
     compileOptions {

@@ -26,9 +26,9 @@ fun editRoute(form: Form,id: Long=0) = "form/${form.name}/$id"
     Page(if(admin) "Cuaderno del huerto" else "Mi jornada") {
         val pendientes = g.tarea.count { it.estado == SUBMITTED }
         val atrasadas = g.tarea.count { overdue(it.estado,it.fecha) }
-        Surface(shape=RoundedCornerShape(24.dp), color=MaterialTheme.colorScheme.primary) {
+        Surface(shape=RoundedCornerShape(24.dp), color=MaterialTheme.colorScheme.surface,contentColor=androidx.compose.ui.graphics.Color.White) {
             Box {
-            Image(painterResource(R.drawable.huerto_paisaje),null,Modifier.matchParentSize(),
+            Image(painterResource(R.drawable.cosecha),null,Modifier.matchParentSize(),
                 contentScale=androidx.compose.ui.layout.ContentScale.Crop)
             Box(Modifier.matchParentSize().background(androidx.compose.ui.graphics.Brush.horizontalGradient(
                 listOf(androidx.compose.ui.graphics.Color(0xFF183D36),androidx.compose.ui.graphics.Color.Transparent))))

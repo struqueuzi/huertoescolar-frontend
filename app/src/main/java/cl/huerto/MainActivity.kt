@@ -1,6 +1,17 @@
 package cl.huerto
 
 import android.os.Bundle
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
@@ -50,17 +61,17 @@ class MainActivity : ComponentActivity() {
         val admin=user?.rol==ADMIN
         Scaffold(bottomBar={
             val route=active?.destination?.route
-            if(user!=null && route in listOf("inicio","tareas","sectores")) {
-                NavigationBar {
-                    for ((target,label,icon) in listOf(Triple("inicio","Inicio",Icons.Default.Home),Triple("tareas","Tareas",Icons.Default.List),Triple("sectores","Huerto",Icons.Default.Place))) {
-                        NavigationBarItem(selected=route==target,icon={Icon(icon,null)},label={Text(label)},onClick={
+            if(user!=null && route!=null && !route.startsWith("form/")) {
+                NavigationBar(containerColor=MaterialTheme.colorScheme.background) {
+                    for ((target,label,icon) in listOf(Triple("inicio","Inicio",Icons.Default.Home),Triple("tareas","Tareas",Icons.Default.List),Triple("sectores","Huerto",Icons.Default.Place),Triple("avisos","Avisos",Icons.Default.DateRange))) {
+                        NavigationBarItem(selected=route==target || (target=="sectores" && (route.startsWith("sector/") || route.startsWith("cultivo/"))) || (target=="tareas" && route.startsWith("tarea/")),icon={Icon(icon,null)},label={Text(label)},onClick={
                             if(route!=target) nav.navigate(target) { popUpTo("inicio"); launchSingleTop=true }
                         })
                     }
                 }
             }
         },snackbarHost={SnackbarHost(snack)},topBar={
-            TopAppBar(title={Text("Huerto escolar")},navigationIcon={
+            if(user!=null) TopAppBar(title={Text("Huerto escolar")},navigationIcon={
                 if(user!=null && active?.destination?.route !in listOf(null,"inicio")) TextButton(onClick=back){Text("Volver")}
             },actions={if(user!=null) TextButton(enabled=!busy,onClick=vm::logout){Text("Salir")}})
         }) { padding ->
@@ -69,10 +80,19 @@ class MainActivity : ComponentActivity() {
                 else if(user==null) {
                     var name by rememberSaveable { mutableStateOf("") }
                     var password by remember { mutableStateOf("") }
-                    Page("Ingresar al taller") {
+                    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).background(MaterialTheme.colorScheme.background)) {
+                        Box(Modifier.fillMaxWidth().height(280.dp)) {
+                            Image(painterResource(R.drawable.cosecha),null,Modifier.matchParentSize(),contentScale=ContentScale.Crop)
+                            Box(Modifier.matchParentSize().background(Brush.verticalGradient(listOf(Color.Transparent,MaterialTheme.colorScheme.background))))
+                            Text("Huerto\nescolar",Modifier.align(Alignment.BottomStart).padding(24.dp),style=MaterialTheme.typography.displayLarge.copy(fontFamily=androidx.compose.ui.text.font.FontFamily.Serif),color=Color.White)
+                        }
+                        Column(Modifier.fillMaxWidth().padding(horizontal=24.dp,vertical=16.dp),verticalArrangement=Arrangement.spacedBy(8.dp)) {
+                        Text("Ingresar al taller",style=MaterialTheme.typography.headlineMedium)
+
                         Field("Cuenta",name,errors["Cuenta"]){name=it}
                         Field("Clave",password,null,true){password=it}
-                        Button(enabled=!busy,onClick={vm.login(name,password)}){Text("Iniciar sesión")}
+                        Button(modifier=Modifier.fillMaxWidth().height(54.dp),enabled=!busy,onClick={vm.login(name,password)}){Text("Iniciar sesión")}
+                        }
                     }
                 } else NavHost(nav,"inicio") {
                     composable("inicio"){Home(user,g,go)}
