@@ -26,6 +26,7 @@ android {
             }
         }
     }
+    buildTypes.getByName("debug").enableUnitTestCoverage = true
     buildTypes { getByName("release") { signingConfig = signingConfigs.getByName("academica") } }
     buildFeatures { compose = true }
     composeOptions { kotlinCompilerExtensionVersion = "1.5.14" }
@@ -66,14 +67,14 @@ val businessClasses = fileTree(layout.buildDirectory.dir("tmp/kotlin-classes/deb
 }
 tasks.register<JacocoReport>("coberturaLogica") {
     dependsOn("testDebugUnitTest")
-    executionData(layout.buildDirectory.file("jacoco/testDebugUnitTest.exec"))
+    executionData(fileTree(layout.buildDirectory) { include("**/testDebugUnitTest.exec") })
     sourceDirectories.setFrom("src/main/java")
     classDirectories.setFrom(businessClasses)
     reports { html.required.set(true); xml.required.set(true) }
 }
 tasks.register<JacocoCoverageVerification>("verificarCobertura") {
     dependsOn("coberturaLogica")
-    executionData(layout.buildDirectory.file("jacoco/testDebugUnitTest.exec"))
+    executionData(fileTree(layout.buildDirectory) { include("**/testDebugUnitTest.exec") })
     classDirectories.setFrom(businessClasses)
     violationRules { rule { limit { counter = "LINE"; minimum = "0.80".toBigDecimal() }; limit { counter = "BRANCH"; minimum = "0.81".toBigDecimal() } } }
 }
