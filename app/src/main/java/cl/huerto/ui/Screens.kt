@@ -1,6 +1,12 @@
 package cl.huerto.ui
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import cl.huerto.R
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -17,14 +23,36 @@ fun editRoute(form: Form,id: Long=0) = "form/${form.name}/$id"
 @Composable fun Home(user: Usuario,g: Garden,go: (String)->Unit) {
     val admin=user.rol==ADMIN
     Page(if(admin) "Cuaderno del huerto" else "Mi jornada") {
-        Text("${user.nombre} · ${user.rol} · ${user.grupo}")
-        val late=g.tarea.count { overdue(it.estado,it.fecha) }
-        Line(if(admin) "Tareas del taller" else "Mis tareas","${g.tarea.size} asignadas · $late atrasadas") { go("tareas") }
-        if(admin) Line("Revisar entregas","${g.tarea.count { it.estado==SUBMITTED }} pendientes de validación") { go("revisiones") }
-        Line("Sectores y cultivos","${g.sector.size} sectores disponibles") { go("sectores") }
+        val pendientes = g.tarea.count { it.estado == SUBMITTED }
+        val atrasadas = g.tarea.count { overdue(it.estado,it.fecha) }
+        Surface(shape=RoundedCornerShape(24.dp), color=MaterialTheme.colorScheme.primary) {
+            Column(Modifier.fillMaxWidth().padding(22.dp), verticalArrangement=Arrangement.spacedBy(10.dp)) {
+                Row(horizontalArrangement=Arrangement.spacedBy(12.dp),verticalAlignment=androidx.compose.ui.Alignment.CenterVertically) {
+                    Image(painterResource(R.drawable.brote),null,Modifier.size(44.dp))
+                    Text(user.grupo+" · "+user.nombre,style=MaterialTheme.typography.titleMedium)
+                }
+                Text(if(admin) "$pendientes entregas por revisar" else "$atrasadas tareas atrasadas",
+                    style=MaterialTheme.typography.headlineMedium)
+                FilledTonalButton(onClick={go(if(admin) "revisiones" else "tareas")}) {
+                    Text(if(admin) "Revisar entregas" else "Mis tareas")
+                }
+            }
+        }
+        Row(Modifier.fillMaxWidth(),horizontalArrangement=Arrangement.spacedBy(10.dp)) {
+            for ((ruta,valor,titulo) in listOf(Triple("tareas",g.tarea.size,"Tareas"),Triple("sectores",g.sector.size,"Sectores"))) {
+                ElevatedCard(onClick={go(ruta)},modifier=Modifier.weight(1f)) {
+                    Column(Modifier.padding(16.dp)) {
+                        Text(valor.toString(),style=MaterialTheme.typography.headlineMedium)
+                        Text(titulo,style=MaterialTheme.typography.labelLarge)
+                    }
+                }
+            }
+        }
+        Text("Seguimiento",style=MaterialTheme.typography.titleLarge)
         Line("Problemas del huerto","${g.reporteproblema.size} reportes") { go("reportes") }
         Line("Avisos","Riegos, cosechas y mantenimiento") { go("avisos") }
         Line("Historial","Actividades, evidencias y revisiones") { go("historial") }
+        Text("Planificación del taller",style=MaterialTheme.typography.titleLarge)
         Line("Tiempo en San Bernardo","Pronóstico de Open-Meteo") { go("tiempo") }
         if(admin) {
             Line("Inventario compartido","Insumos del taller") { go("insumos") }

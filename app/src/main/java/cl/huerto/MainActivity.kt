@@ -1,6 +1,10 @@
 package cl.huerto
 
 import android.os.Bundle
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Place
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -44,7 +48,18 @@ class MainActivity : ComponentActivity() {
         val user=state.user
         val g=state.garden
         val admin=user?.rol==ADMIN
-        Scaffold(snackbarHost={SnackbarHost(snack)},topBar={
+        Scaffold(bottomBar={
+            val route=active?.destination?.route
+            if(user!=null && route in listOf("inicio","tareas","sectores")) {
+                NavigationBar {
+                    for ((target,label,icon) in listOf(Triple("inicio","Inicio",Icons.Default.Home),Triple("tareas","Tareas",Icons.Default.List),Triple("sectores","Huerto",Icons.Default.Place))) {
+                        NavigationBarItem(selected=route==target,icon={Icon(icon,null)},label={Text(label)},onClick={
+                            if(route!=target) nav.navigate(target) { popUpTo("inicio"); launchSingleTop=true }
+                        })
+                    }
+                }
+            }
+        },snackbarHost={SnackbarHost(snack)},topBar={
             TopAppBar(title={Text("Huerto escolar")},navigationIcon={
                 if(user!=null && active?.destination?.route !in listOf(null,"inicio")) TextButton(onClick=back){Text("Volver")}
             },actions={if(user!=null) TextButton(enabled=!busy,onClick=vm::logout){Text("Salir")}})
