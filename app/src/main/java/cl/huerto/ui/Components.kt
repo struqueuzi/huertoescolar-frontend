@@ -1,5 +1,8 @@
 package cl.huerto.ui
 import androidx.compose.animation.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -12,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import cl.huerto.ui.theme.statusColor
 
 @Composable fun Page(title: String, body: @Composable ColumnScope.() -> Unit) {
-    Box(Modifier.fillMaxSize(),contentAlignment=Alignment.TopCenter) {
+    Box(Modifier.fillMaxSize().background(Brush.verticalGradient(listOf(MaterialTheme.colorScheme.surface, MaterialTheme.colorScheme.background))),contentAlignment=Alignment.TopCenter) {
         Column(Modifier.widthIn(max=720.dp).fillMaxWidth().verticalScroll(rememberScrollState()).padding(20.dp),
             verticalArrangement=Arrangement.spacedBy(12.dp)) {
             Text(title,style=MaterialTheme.typography.headlineMedium)
@@ -23,17 +26,20 @@ import cl.huerto.ui.theme.statusColor
 }
 @Composable fun Line(title: String, detail: String="", action: (() -> Unit)?=null) {
     val content: @Composable ColumnScope.() -> Unit = {
-        Column(Modifier.padding(14.dp),verticalArrangement=Arrangement.spacedBy(4.dp)) {
+        Row(Modifier.fillMaxWidth().padding(16.dp),verticalAlignment=Alignment.CenterVertically) {
+        Column(Modifier.weight(1f),verticalArrangement=Arrangement.spacedBy(4.dp)) {
             Text(title,style=MaterialTheme.typography.titleMedium)
-            if(detail.isNotBlank()) Text(detail,style=MaterialTheme.typography.bodyMedium)
+            if(detail.isNotBlank()) Text(detail,color=MaterialTheme.colorScheme.onSurfaceVariant,style=MaterialTheme.typography.bodyMedium)
+        }
+        if(action!=null) Text("›",style=MaterialTheme.typography.headlineMedium,color=MaterialTheme.colorScheme.primary)
         }
     }
     if(action == null) OutlinedCard(Modifier.fillMaxWidth(),content=content)
     else OutlinedCard(onClick=action,modifier=Modifier.fillMaxWidth(),content=content)
 }
-@Composable fun Status(value: String) { Crossfade(value,label="Estado de tarea") { Text(it,color=statusColor(it),style=MaterialTheme.typography.labelLarge) } }
+@Composable fun Status(value: String) { Crossfade(value,label="Estado de tarea") { Surface(shape=RoundedCornerShape(50),color=statusColor(it).copy(alpha=.14f)) { Text(it,Modifier.padding(horizontal=14.dp,vertical=6.dp),color=statusColor(it),style=MaterialTheme.typography.labelLarge) } } }
 @Composable fun Field(label: String,value: String,error: String?,secret: Boolean=false,change: (String)->Unit) {
-    OutlinedTextField(value,change,modifier=Modifier.fillMaxWidth(),label={Text(label)},isError=error!=null,
+    OutlinedTextField(value,change,modifier=Modifier.fillMaxWidth(),shape=RoundedCornerShape(16.dp),colors=OutlinedTextFieldDefaults.colors(unfocusedContainerColor=MaterialTheme.colorScheme.surface,focusedContainerColor=MaterialTheme.colorScheme.surface),label={Text(label)},isError=error!=null,
         visualTransformation=if(secret) PasswordVisualTransformation() else VisualTransformation.None,
         trailingIcon={if(error!=null) Text("⚠",color=MaterialTheme.colorScheme.error)},
         supportingText={AnimatedVisibility(error!=null) { Text(error.orEmpty()) }})

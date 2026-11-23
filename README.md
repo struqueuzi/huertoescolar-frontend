@@ -45,3 +45,9 @@ Esta rama agrega inventario y agenda con Spring Boot, CRUD desde Android y clima
 La carpeta entrega contiene HuertoEscolar-2.0-release.apk y el almacén académico huerto-academico.jks cifrado. La contraseña se entrega al titular por separado. El APK usa el esquema v2 y un certificado con nombre Huerto Escolar Academico. Ver la salida de apksigner en docs/verificacion/firma-apk.txt.
 
 ![APK y almacén de firma](docs/verificacion/archivos-firmados.png)
+
+### Integración del rediseño y las pruebas de ramas
+
+El código de esta rama incluye el acceso fotográfico y la navegación de Huerto · Cosecha. Para probar esa interfaz en Android, descarga la [APK del rediseño](https://github.com/struqueuzi/huertoescolar-frontend/releases/download/vista-bfedb78e/Huerto-Visual.apk). El APK académico firmado en entrega corresponde a la versión 2.0 anterior al rediseño.
+
+La [medición del 23 de noviembre](https://github.com/struqueuzi/huertoescolar-frontend/actions/runs/45181185359) registró 248 de 282 ramas (87,94 %) y 223 de 229 líneas (97,38 %) en la lógica seleccionada. El flujo de cobertura publica el informe de cada ejecución como artefacto.

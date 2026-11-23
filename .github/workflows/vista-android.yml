@@ -1,0 +1,22 @@
+name: APK del rediseño
+on:
+  push:
+    branches: [rediseno-android]
+permissions:
+  contents: write
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - run: ./gradlew assembleDebug
+      - name: Publicar APK de prueba
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cp app/build/outputs/apk/debug/app-debug.apk Huerto-Visual.apk
+          gh release create "vista-${GITHUB_SHA:0:8}" Huerto-Visual.apk --target "$GITHUB_SHA" --prerelease --title "Huerto Escolar · Vista del rediseño" --notes "Instalación independiente para revisar la interfaz."
