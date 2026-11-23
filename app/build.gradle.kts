@@ -75,5 +75,5 @@ tasks.register<JacocoCoverageVerification>("verificarCobertura") {
     dependsOn("coberturaLogica")
     executionData(layout.buildDirectory.file("jacoco/testDebugUnitTest.exec"))
     classDirectories.setFrom(businessClasses)
-    violationRules { rule { limit { counter = "LINE"; minimum = "0.80".toBigDecimal() } } }
+    violationRules { rule { limit { counter = "LINE"; minimum = "0.80".toBigDecimal() }; limit { counter = "BRANCH"; minimum = "0.81".toBigDecimal() } } }
 }
